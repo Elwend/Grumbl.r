@@ -33,5 +33,5 @@ App = {
 $(document).ready(function(){
   App.Collections.grumbles = new App.GrumbleCollection();
   App.Views.grumbleListView = new App.GrumbleListView({collection: App.Collections.grumbles});
-  App.Views.grumbleFormView = new App.GrumbleFormView({collection: App.Collections.grumbles});
+  // App.Views.grumbleFormView = new App.GrumbleFormView({collection: App.Collections.grumbles});
 });

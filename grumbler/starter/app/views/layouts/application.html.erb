@@ -12,8 +12,8 @@
 <div id='grumble-list'><span class='add'>Add Grumble</span></div>
 
 <script type="text/x-handlebars-template" id="grumble-template">
-  <div id={{id}}>
-    <img src="{{avatar}}" alt="">
+  <div id="{{id}}">
+    <img src="{{avatar}}">
     <h5>{{title}} | {{author}}</h5>
     <p>{{content}}</p>
     <span class='destroy' data-id={{id}}>Delete</span>
@@ -21,24 +21,6 @@
   </div>
 </script>
 
-<script type="text/x-handlebars-template" id="grumble-form-template">
-  <div class='grumble-form-div'>
-  {{#if this}}
-    <input type="text" name="title" value="{{title}}">
-    <input type="text" name="content" value="{{content}}">
-    <input type="text" name="author" value="{{author}}">
-    <input type="text" name="avatar" value="{{avatar}}">
-    <span class='edit-grumble'>GRUMBLE</span>
-  {{else}}
-    <input type="text" name="title" placeholder="title">
-    <input type="text" name="content" placeholder="content">
-    <input type="text" name="author" placeholder="author">
-    <input type="text" name="avatar" placeholder="avatar">
-    <span class='new-grumble'>GRUMBLE</span>
-  {{/if}}
-    <span class='cancel'><-> [X]</span>
-  </div>
-</script>
 
 </body>
 </html>
