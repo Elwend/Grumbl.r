@@ -1,6 +1,10 @@
 App.GrumbleListView = Backbone.View.extend({
   el: '#grumble-list',
 
+  events: {
+    'click .add': 'showGrumbleForm'
+  },
+
   initialize: function() {
     this.listenTo(this.collection, 'add', this.renderOne);
     this.listenTo(this.collection, 'reset', this.renderAll);
@@ -17,6 +21,10 @@ App.GrumbleListView = Backbone.View.extend({
 
   renderAll: function() {
     this.collection.each(this.renderOne);
+  },
+
+  showGrumbleForm: function() {
+    $('#grumble-form').fadeIn(400);
   }
 
 });

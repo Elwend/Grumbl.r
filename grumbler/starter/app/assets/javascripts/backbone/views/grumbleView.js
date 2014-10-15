@@ -17,5 +17,5 @@ App.GrumbleView = Backbone.View.extend({
     this.$el.html(htmlString);
 
   }
-  
+
 });
