@@ -23,7 +23,6 @@
 //= require_tree ./backbone/views
 //= require_tree .
 
-
 App = {
   Models: {},
   Views: {},
@@ -31,8 +30,6 @@ App = {
 };
 
 $(document).ready(function(){
-  App.Collections.grumbles = new App.GrumbleCollection();
-  App.Views.grumbleListView = new App.GrumbleListView({collection: App.Collections.grumbles});
-  App.Views.grumbleFormView = new App.GrumbleFormView({collection: App.Collections.grumbles});
-  App.Collections.grumbles.fetch();
+  App.router = new App.Router();
+  Backbone.history.start();
 });
