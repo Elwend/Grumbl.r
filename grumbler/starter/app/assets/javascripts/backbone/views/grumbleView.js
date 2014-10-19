@@ -1,31 +1,43 @@
 App.GrumbleView = Backbone.View.extend({
-
-  tagName: "div",
-  className: "grumble",
+  className: 'grumble',
 
   events: {
-    'click span.destroy': 'onDestroy'
+    'click span.destroy': 'onDestroy',
+    'click span.edit': 'onEdit'
   },
 
   initialize: function() {
-    
+    console.log('New Grumble View');
     this.listenTo(this.model, 'change', this.render)
-    this.sourceString = $('#grumble-template').html();
-    this.template = Handlebars.compile(this.sourceString);
+
+    var source = $("#grumble-template").html();
+    this.template = Handlebars.compile(source);
 
     this.render();
   },
 
   render: function(){
-    var htmlString = this.template(this.model.toJSON());
-    this.$el.html(htmlString);
+    this.$el.html(this.template(this.model.toJSON()));
+  },
+
+  onEdit: function() {
+    // This is questionable practice, the view now knows about the router
+    App.router.navigate('grumbles/'+ this.model.id +'/edit', { trigger: true });
   },
 
   onDestroy: function() {
-    var result = confirm("You sure?");
-    if (result == true) {
-      this.remove();
-      this.model.destroy();
+    var self = this;
+
+    if (confirm("You sure homie?")) {
+      // Destroy the model in DB
+      this.model.destroy({
+        success: function(model, response, options) {
+          self.remove();
+        },
+        error: function(model, response, options) {
+          alert("Your Grumble could not be destroyed.");
+        }
+      });
     }
   }
 

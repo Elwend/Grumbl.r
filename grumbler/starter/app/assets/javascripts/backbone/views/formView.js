@@ -1,43 +1,65 @@
 App.GrumbleFormView = Backbone.View.extend({
   el: '#grumble-form',
 
-  // Backbone way of taking action on events
   events: {
-    'click .new-grumble': 'createGrumble',
-    'click .cancel': 'hideGrumbleForm'
+    'click span.new-grumble': 'newGrumble',
+    'click span.edit-grumble': 'submitGrumble',
+    'click span.cancel': 'cancel'
   },
 
-  // Load the form template during initialize of the form view
-  initialize: function() {
-    this.sourceString = $('#grumble-form-template').html();
-    this.template = Handlebars.compile(this.sourceString);
+  initialize: function(){
+    console.log('New Form View');
+
+    var source = $("#grumble-form-template").html();
+    this.template = Handlebars.compile(source);
     this.render();
-    this.$el.hide();
   },
 
-  // Write the render function and make sure it's called when the form view is intialized
-  render: function() {
-    var htmlString = this.template();
-    this.$el.html(htmlString);
+  render: function(){
+    if (this.model) {
+      this.$el.html(this.template(this.model.toJSON()));
+    }
+    else {
+      this.$el.html(this.template());
+    }
   },
 
-  // Write a 'createGrumble' method that adds a grumble to the
-  // collection when the 'submit' button is clicked 
-  createGrumble: function() {
-    var title = $('input[name="title"]').val();
-    var author = $('input[name="author"]').val();
-    var content = $('input[name="content"]').val();
-    var avatar = $('input[name="avatar"]').val();
-    
-    // Collection included in application.js
-    this.collection.create({title: title, author: author, content: content, avatar: avatar});
+  getFormData: function() {
+    var data = {
+      author: this.$("[name='author']").val(),
+      avatar: this.$("[name='avatar']").val(),
+      title: this.$("[name='title']").val(),
+      content: this.$("[name='content']").val()
+    };
+
+    return data;
   },
 
-  hideGrumbleForm: function() {
-    this.$el.fadeOut(400);
+  newGrumble: function(){
+    var data = this.getFormData();
+
+    this.collection.create(data, {
+      success: function(){
+        $('input').val('');
+        $('#grumble-form').hide(100);
+        App.router.navigate('')
+      }
+    });
+  },
+
+  submitGrumble: function() {
+    var data = this.getFormData();
+
+    this.model.save(data, {
+      success: function() {
+        App.router.navigate('/', { trigger: true });
+      }
+    })
+  },
+
+  cancel: function(){
+    this.$el.fadeOut(200);
+    App.router.navigate('')
   }
 
-});
-
-
-
+})

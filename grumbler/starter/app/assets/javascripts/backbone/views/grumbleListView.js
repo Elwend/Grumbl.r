@@ -2,29 +2,29 @@ App.GrumbleListView = Backbone.View.extend({
   el: '#grumble-list',
 
   events: {
-    'click .add': 'showGrumbleForm'
+    'click span.add':'showForm'
   },
 
   initialize: function() {
-    this.listenTo(this.collection, 'add', this.renderOne);
-    this.listenTo(this.collection, 'reset', this.renderAll);
-    this.collection.fetch();
+    console.log('New Grumble View');
+    this.listenTo(this.collection, 'add', this.addOne)
+    this.listenTo(this.collection, 'reset', this.addAll)
+
+    this.addAll();
   },
 
-  renderOne: function(grumble) {
-    //Create a new grumble view 
+  addOne: function(grumble){
     var grumbleView = new App.GrumbleView({model: grumble});
-    //Associate it with the model
-    this.$el.append(grumbleView.el);
-    //Take the el from the GrumbleView and movie it into the DOM
+    grumbleView.$el.insertAfter(this.$('span.add'));
   },
 
-  renderAll: function() {
-    this.collection.each(this.renderOne);
+  addAll: function(){
+    this.collection.each(function(grumble){
+      this.addOne(grumble);
+    },this)
   },
 
-  showGrumbleForm: function() {
-    $('#grumble-form').fadeIn(400);
+  showForm: function() {
+    App.router.navigate('grumbles/new', { trigger: true });
   }
-
 });

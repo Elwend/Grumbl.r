@@ -23,12 +23,6 @@
 //= require_tree ./backbone/views
 //= require_tree .
 
-App = {
-  Models: {},
-  Views: {},
-  Collections: {}
-};
-
 $(document).ready(function(){
   App.router = new App.Router();
   Backbone.history.start();
